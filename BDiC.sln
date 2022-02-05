@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32112.339
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BDiC", "src\BDiC.csproj", "{A5EABF44-534F-48C7-9B2E-8BCA514B7FCA}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test_Selenium", "tests\Test_Selenium\Test_Selenium.csproj", "{68B1CDEF-097A-4BFD-98EC-0808124897ED}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EBF67AB3-3B6D-4C1F-BA3E-935CC3EC91D9}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{D432D024-48C1-4B92-809E-4FB78D228D17}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A5EABF44-534F-48C7-9B2E-8BCA514B7FCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A5EABF44-534F-48C7-9B2E-8BCA514B7FCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A5EABF44-534F-48C7-9B2E-8BCA514B7FCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A5EABF44-534F-48C7-9B2E-8BCA514B7FCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68B1CDEF-097A-4BFD-98EC-0808124897ED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68B1CDEF-097A-4BFD-98EC-0808124897ED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68B1CDEF-097A-4BFD-98EC-0808124897ED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68B1CDEF-097A-4BFD-98EC-0808124897ED}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A5EABF44-534F-48C7-9B2E-8BCA514B7FCA} = {EBF67AB3-3B6D-4C1F-BA3E-935CC3EC91D9}
+		{68B1CDEF-097A-4BFD-98EC-0808124897ED} = {D432D024-48C1-4B92-809E-4FB78D228D17}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0DDB19CC-FB38-4E7F-9E9D-A91139000B74}
+	EndGlobalSection
+EndGlobal
