@@ -38,14 +38,14 @@ namespace BDiC
         public bool ConfirmationOfArrivalDate(String latestDateRaw)
         {
             this.latestDate = latestDateRaw.Trim();
-            current = DateTime.Now;
+            current = DateTime.Now.Date;
             dateCompare = DateTime.Compare(current, DateTime.Parse(latestDate));
+            // 今日と同日なら0、前の日なら1
 
             if (dateCompare == 0)
                 return true;
             else
                 return false;
-
         }
     }
 }
