@@ -21,6 +21,8 @@ namespace BDiC
 
         // 処理開始時間 (引数値)
         private DateTime before;
+        // 現在と処理開始時間の差分
+        private TimeSpan delta;
 
         public void ExctionDateDecision()
         {
@@ -46,6 +48,15 @@ namespace BDiC
                 return true;
             else
                 return false;
+        }
+
+        public TimeSpan WaitTime(DateTime before)
+        {
+            this.before = before;
+            current = DateTime.Now;
+            delta = current - before;
+
+            return new TimeSpan(0, 0, 0, 5) - delta;
         }
     }
 }
