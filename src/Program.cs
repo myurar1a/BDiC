@@ -6,6 +6,7 @@
         {
             Test test = new Test();
             await test.ConfirmationOfArrivalDate();
+            //await test.GetTest();
         }
     }
 }
