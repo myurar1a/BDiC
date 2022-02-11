@@ -10,63 +10,98 @@ namespace BDiC
 {
     public class GetWebPage
     {
-        private HttpClient client;
-        private String url;
-        private HttpResponseMessage response;
-        private String source;
-        private HtmlParser parser;
-        private IHtmlDocument _document;
+        static readonly HttpClient client = new HttpClient();
+        private String? _url;
+        private HttpResponseMessage? _response;
+        private String? _source;
+        private IHtmlDocument? _document;
 
-        public async void GetResponse(String url)
+        public async Task<HttpResponseMessage> GetResponse(String url)
         {
-            this.url = url;
+            this._url = url;
 
             try
             {
-                this.response = await client.GetAsync(url);
+                this._response = await client.GetAsync(this._url);
+                return this._response;
+            }
+            catch (TaskCanceledException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Environment.Exit(0);
+                return null;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 Environment.Exit(0);
+                return null;
             }
         }
 
-        public async void GetSource(String url)
+        public async Task<String> GetSource(String url)
         {
-            this.url = url;
+            this._url = url;
 
             try
             {
-                this.response = await client.GetAsync(url);
-                this.source = await this.response.Content.ReadAsStringAsync();
+                this._response = await client.GetAsync(this._url);
+                this._source = await this._response.Content.ReadAsStringAsync();
+                return this._source;
+            }
+            catch (TaskCanceledException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Environment.Exit(0);
+                return null;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 Environment.Exit(0);
+                return null;
             }
         }
 
-        public async void GetDocument(String url)
+        public async Task<IHtmlDocument> GetDocument(String url)
         {
-            this.url = url;
+            this._url = url;
 
             try
             {
-                this.response = await client.GetAsync(url);
-                this.source = await this.response.Content.ReadAsStringAsync();
-                this._document = await this.parser.ParseDocumentAsync(this.source);
+                this._response = await client.GetAsync(this._url);
+                this._source = await this._response.Content.ReadAsStringAsync();
+                
+                // parser の利用はこのメソッドのみなので、フィールドに含まない
+                var parser = new HtmlParser();
+                this._document = await parser.ParseDocumentAsync(this._source);
+                return this._document;
+            }
+            catch (TaskCanceledException ex)
+            {
+                Console.WriteLine(ex.Message);
+                Environment.Exit(0);
+                return null;
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
                 Environment.Exit(0);
+                return null;
             }
         }
 
-        public HttpResponseMessage Response { private set; get; }
-        public String Source { private set; get; }
-        public IHtmlDocument Document { private set; get; }
+        public HttpResponseMessage? Response
+        {
+            get { return this._response; }
+        }
+        public String? Source
+        {
+            get { return this._source; }
+        }
+        public IHtmlDocument? Document
+        {
+            get { return this._document; }
+        }
     }
 }
