@@ -9,16 +9,23 @@ namespace BDiC
     internal class Test
     {
         private String? _latestDate;
-        public async Task ConfirmationOfArrivalDate()
+        public async Task ConfirmationOfArrivalDateAsync()
         {
             ParseBD pbd = new ParseBD();
-            this._latestDate = await pbd.OutputDate();
-            Console.WriteLine(this._latestDate);
+            this._latestDate = await pbd.OutputDateAsync();
+            Console.WriteLine("在庫更新日：{0}", this._latestDate?.Trim() ?? "Null");
 
+            if (this._latestDate != null)
+                Console.WriteLine("　本　日　：{0}", DateTime.Now.Date);
+            else
+                Environment.Exit(0);
+            
             TimeRelated tr = new TimeRelated();
             bool a = tr.ConfirmationOfArrivalDate(this._latestDate);
             Console.WriteLine(a);
         }
+
+        public async Task 
 
         /*
         static readonly HttpClient client = new HttpClient();

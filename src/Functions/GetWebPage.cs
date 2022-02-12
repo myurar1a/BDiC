@@ -16,7 +16,7 @@ namespace BDiC
         private String? _source;
         private IHtmlDocument? _document;
 
-        public async Task<HttpResponseMessage> GetResponse(String url)
+        public async Task<HttpResponseMessage> GetResponseAsync(String url)
         {
             this._url = url;
 
@@ -39,7 +39,7 @@ namespace BDiC
             }
         }
 
-        public async Task<String> GetSource(String url)
+        public async Task<String> GetSourceAsync(String url)
         {
             this._url = url;
 
@@ -63,7 +63,7 @@ namespace BDiC
             }
         }
 
-        public async Task<IHtmlDocument> GetDocument(String url)
+        public async Task<IHtmlDocument> GetDocumentAsync(String url)
         {
             this._url = url;
 

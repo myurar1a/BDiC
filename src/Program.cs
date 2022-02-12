@@ -5,7 +5,7 @@
         static async Task Main(string[] args)
         {
             Test test = new Test();
-            await test.ConfirmationOfArrivalDate();
+            await test.ConfirmationOfArrivalDateAsync();
             //await test.GetTest();
         }
     }

@@ -12,13 +12,13 @@ namespace BDiC
     {
         private IHtmlDocument? _bdDocument;
         private String? _latestDate;
-        public async Task<String> OutputDate()
+        public async Task<String?> OutputDateAsync()
         {
             var bd = new GetWebPage();
+            this._bdDocument = await bd.GetDocumentAsync("https://www.buffalo-direct.com/directshop/");
             try
             {
-                this._bdDocument = await bd.GetDocument("https://www.buffalo-direct.com/directshop/");
-                this._latestDate = this._bdDocument?.QuerySelector("#indexSaleIn > ul:nth-child(5) > li:nth-child(1) > p.columnLeft")?.TextContent ?? "";
+                this._latestDate = this._bdDocument?.QuerySelector("#indexSaleIn > ul:nth-child(5) > li:nth-child(1) > p.columnLeft")?.TextContent;
             }
             catch (Exception ex)
             {
@@ -32,6 +32,7 @@ namespace BDiC
         {
             String? rawIncome = this._bdDocument?.QuerySelector("#indexSaleIn > ul:nth-child(5) > li:nth-child(1)")?.TextContent;
             var rawIncomeList = rawIncome?.Split("\n");
+            Console.WriteLine("Stop");
         }
 
         public String? LatestDate
