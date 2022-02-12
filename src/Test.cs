@@ -13,11 +13,10 @@ namespace BDiC
         {
             ParseBD pbd = new ParseBD();
             this._latestDate = await pbd.OutputDateAsync();
-            Console.WriteLine("在庫更新日：{0}", this._latestDate?.Trim() ?? "Null");
+            Console.WriteLine("　本　日　：{0}", DateTime.Today.ToString("yyyy/MM/dd"));
+            Console.WriteLine("在庫更新日：{0}", this._latestDate?.Trim() ?? "在庫更新日：Null");
 
-            if (this._latestDate != null)
-                Console.WriteLine("　本　日　：{0}", DateTime.Now.Date);
-            else
+            if (this._latestDate == null)
                 Environment.Exit(0);
             
             TimeRelated tr = new TimeRelated();
@@ -25,7 +24,11 @@ namespace BDiC
             Console.WriteLine(a);
         }
 
-        public async Task 
+        public async Task ConfirmationOfIncomeListAsync()
+        {
+            ParseBD pbd = new ParseBD();
+            await pbd.IncomeListAsync(true);
+        }
 
         /*
         static readonly HttpClient client = new HttpClient();

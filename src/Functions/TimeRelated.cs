@@ -42,7 +42,7 @@ namespace BDiC
         public bool ConfirmationOfArrivalDate(String latestDateRaw)
         {
             this._latestDate = latestDateRaw.Trim();
-            this._date = DateTime.Now.Date;
+            this._date = DateTime.Today;
             this._dateCompare = DateTime.Compare(this._date, DateTime.Parse(this._latestDate));
             // 今日と同日なら0、前の日なら1
 
