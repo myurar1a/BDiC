@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AngleSharp.Html.Dom;
 using AngleSharp.Html.Parser;
+using BDiC.Database;
 
 namespace BDiC
 {
@@ -41,6 +42,7 @@ namespace BDiC
 
         public async Task IncomeListAsync(bool newInstance)
         {
+            /*
             // データテーブル作成
             DataTable dt = new DataTable();
             dt.Columns.Add("No.");
@@ -50,6 +52,7 @@ namespace BDiC
             dt.Columns.Add("保証期間");
             dt.Columns.Add("価格");
             dt.Columns.Add("リンク");
+            */
 
             if (newInstance)
                 await GetBDDocumentAsync();
@@ -161,6 +164,7 @@ namespace BDiC
                 incomeUrlList.Add(element?.QuerySelector("a")?.GetAttribute("href")!);
             }
 
+            /*
             // データテーブル書き込み
             for (int i = 0; i < incomeInfoList.Count; i++)
             {
@@ -174,7 +178,30 @@ namespace BDiC
                 dr[6] = incomeUrlList[i];
                 dt.Rows.Add(dr);
             }
+            */
+
+            // データベース書き込み
+            using (var db = new IncomeContext())
+            {
+                // 今日の更新データベースを作成
+                Console.WriteLine("本日の在庫更新のデータベースを作成しています...");
+                db.Add(new Income { date = DateTime.Now.Date });
+                db.SaveChanges();
+
+                // 読み込み
+                var income = db.Incomes.OrderBy(b => b.Id).First();
+
+                // 更新
+                Console.WriteLine("本日の在庫更新のデータをデータベースに書き込んでいます...");
+                for (int i = 0; i < incomeInfoList.Count; i++)
+                {
+                    income.Posts.Add(
+                        new Post { Id = i, Name = incomeNameList[i], State = incomeStateList[i], Condition = incomeConditionList[i], Warranty = incomeWarrantyList[i], Value = incomeValueList[i], Url = incomeUrlList[i] });
+                }
+                db.SaveChanges();
+            }
         }
+            
 
         public String? LatestDate
         {
