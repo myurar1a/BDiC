@@ -40,7 +40,7 @@ namespace BDiC
             return this._latestDate;
         }
 
-        public async Task IncomeListAsync(bool newInstance)
+        public async Task GetIncomeDBAsync(bool newInstance)
         {
             /*
             // データテーブル作成
@@ -56,12 +56,15 @@ namespace BDiC
 
             if (newInstance)
                 await GetBDDocumentAsync();
+            // AngleSharp の仕様なのか、これではクエリの重複が発生する
             var rawIncome = this._bdDocument?.QuerySelectorAll("#indexSaleIn > ul:nth-child(5) > li:nth-child(1) > p.text");
 
             // 製品情報
             List<String> incomeInfoList = new();
-            foreach (var element in rawIncome!)
+            // 重複したクエリを除くため、foreach は利用せず、rawIncome.Length/2 を用いる
+            for (int i = 0; i < rawIncome?.Length/2; i++)
             {
+                var element = rawIncome![i];
                 int removeIndex = element.InnerHtml.IndexOf("<font");
                 if (removeIndex > 0)
                 {
@@ -150,8 +153,9 @@ namespace BDiC
 
             // 価格
             List<int> incomeValueList = new();
-            foreach (var element in rawIncome!)
+            for (int i = 0; i < incomeInfoList.Count; i++)
             {
+                var element = rawIncome![i];
                 String tmp = element?.QuerySelector("font")?.TextContent!;
                 Match productValue = Regex.Match(tmp, @"\d+");
                 incomeValueList.Add(int.Parse(productValue.Value));
@@ -159,8 +163,9 @@ namespace BDiC
 
             // URL
             List<String> incomeUrlList = new();
-            foreach (var element in rawIncome!)
+            for (int i = 0; i < incomeInfoList.Count; i++)
             {
+                var element = rawIncome![i];
                 incomeUrlList.Add(element?.QuerySelector("a")?.GetAttribute("href")!);
             }
 
@@ -183,20 +188,10 @@ namespace BDiC
             // データベース書き込み
             using (var db = new IncomeContext())
             {
-                // 今日の更新データベースを作成
-                Console.WriteLine("本日の在庫更新のデータベースを作成しています...");
-                db.Add(new Income { date = DateTime.Now.Date });
-                db.SaveChanges();
-
-                // 読み込み
-                var income = db.Incomes.OrderBy(b => b.Id).First();
-
-                // 更新
                 Console.WriteLine("本日の在庫更新のデータをデータベースに書き込んでいます...");
                 for (int i = 0; i < incomeInfoList.Count; i++)
                 {
-                    income.Posts.Add(
-                        new Post { Id = i, Name = incomeNameList[i], State = incomeStateList[i], Condition = incomeConditionList[i], Warranty = incomeWarrantyList[i], Value = incomeValueList[i], Url = incomeUrlList[i] });
+                    db.Add(new Income { Id = i, Date = DateTime.Now.Date, Name = incomeNameList[i], State = incomeStateList[i], Condition = incomeConditionList[i], Warranty = incomeWarrantyList[i], Value = incomeValueList[i], Url = incomeUrlList[i] });
                 }
                 db.SaveChanges();
             }
